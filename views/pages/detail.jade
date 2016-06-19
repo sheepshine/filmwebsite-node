@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12 
+                img(src="#{movie.summary}")
+        .row
+            .col-md-7 电影名字
+            .col-md-5 #{movie.title}
+        .row
+            .col-md-7 电影导演
+            .col-md-5 #{movie.doctor}
+        .row
+            .col-md-7 语言
+            .col-md-4 #{movie.language}
+        .row
+            .col-md-7 国家
+            .col-md-4 #{movie.country}
+        .row
+            .col-md-7 上映年份
+            .col-md-4 #{movie.year}
+        .row

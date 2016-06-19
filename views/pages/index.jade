@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            each item in movies
+                .col-md-2
+                    a(href='/detail/#{item.id}')
+                        .thumbnail
+                            img(src="#{item.summary}")
+                        .caption
+                            h3 #{item.title}
