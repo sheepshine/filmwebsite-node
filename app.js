@@ -4,7 +4,8 @@ var path=require('path');
 var mongoose=require('mongoose');
 var bodyParser  = require('body-parser');
 var _=require('underscore');
-var Movie=require('./models/movie')
+var Movie=require('./models/movie');
+var User=require('./models/user');
 var port = process.env.PORT || 3000;
 
 mongoose.connect('mongodb://localhost/ycb')
@@ -30,6 +31,68 @@ app.get('',function(req,res){
 			title:'电影',
 			movies:movies
 		})	
+	})
+})
+
+//注册
+app.post('/user/signup',function(req,res){
+	var _user=req.body.user
+	var user = new User(_user)
+	User.find({name:_user.name},function(err,user){
+		if(err){
+			console.log(err)
+		}
+
+		if(user){
+			return res.redirect('/')
+		}else{
+			user.save(function(err,user){
+				if(err){
+					console.log(err)
+				}
+
+				console.log(user)
+			})	
+		}
+	})
+	
+})
+
+//登录
+app.post('/user/signin',function(req,res){
+	var _user=req.body.user
+	var name=_user.name;
+	var password=_user.password;
+
+	User.findOne({name:name},function(err,user){
+		if(err){
+			console.log(err)
+		}
+		if(!user){
+			console.log('用户不存在')
+		}
+
+		user.comparePassword(password,function(err,isMatch){
+			if(err){
+				console.log(err)
+			}
+
+			if(isMatch){
+				return res.redirect('/')
+			}else{
+				console.log('密码错误')
+			}
+		})
+	})
+	
+})
+
+//用户列表
+app.get('/user/list',function(req,res){
+	User.fetch(function(err,users){
+		res.render('userlist',{
+			users:users
+		})
 	})
 })
 

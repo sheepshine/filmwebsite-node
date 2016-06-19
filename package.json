@@ -13,6 +13,7 @@
     "express": "^4.13.4"
   },
   "devDependencies": {
+    "bcryptjs": "^2.3.0",
     "mongoose": "^4.5.0",
     "underscore": "^1.8.3"
   }

@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+    table.table
+        caption 用户列表
+        thead
+            tr
+                th 用户名
+                th 创建时间
+                th 密码
+        tbody
+            each item in users
+                tr
+                    th #{item.name}
+                    th #{item.meta.createAt}
+                    th #{item.password}
