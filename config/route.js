@@ -154,9 +154,16 @@ module.exports=function(app){
 		var id=req.params.id;
 		if(id){
 			Article.findById(id,function(err,article){
-				res.render('admin',{
-					title:'后台更新页',
-					article:article
+				console.log(article)
+				Label.fetch(function(err,lables){
+					if(err){
+						console.log(err)
+					}
+					res.render('admin-add',{
+						title:'后台更新页',
+						article:article,
+						lables:lables
+					})
 				})
 			})
 		}
