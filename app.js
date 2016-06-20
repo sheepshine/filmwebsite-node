@@ -11,7 +11,7 @@ var dbUrl='mongodb://localhost/blog-alpha';
 
 mongoose.connect(dbUrl)
 
-app.set('views','./views/pages');
+app.set('views','./app/views/pages');
 app.set('view engine','jade');
 //app.user(express.bodyParser());
 app.use(express.static(path.join(__dirname,'public')))
