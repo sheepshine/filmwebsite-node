@@ -14,5 +14,24 @@ $(function(){
 		})
 	})
 
+	//添加标签
+	
+	$("#addlabel").click(function(e){
+		$.ajax({
+			type:'post',
+			url:'/admin/label',
+			data:{
+				label:$('#labelVal').val()
+			}
+		})
+		.done(function(res){
+			alert(res.message)
+			window.location.reload();
+		})
+	})
+
+	$("#submitNew").click(function(){
+		alert($("#selectNew").val())
+	})
 
 })

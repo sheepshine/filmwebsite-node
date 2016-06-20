@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+	.container
+		.input-group
+			input.form-control#labelVal(type="text")
+			.input-group-btn
+				button.btn#addlabel 添加
+		ul
+			each item in labels
+				li #{item.name}
+
+		

@@ -2,18 +2,16 @@ extends ../layout
 
 block content
     .container
-        .row
-            .col-md-2 文章标题
-            .col-md-10 #{article.title}
-        .row
-            .col-md-2 作者
-            .col-md-10 #{article.author}
-        .row
-            .col-md-2 编辑日期
-            .col-md-10 #{article.meta.createAt}
-        .row
-            .col-md-2 标签
-            .col-md-100 #{article.label}
-        .row
-            .col-md-12 #{article.content}
+        .page-header
+            h1 #{article.title}
+                small #{article.author}
+            .row
+                .col-md-2 编辑日期
+                .col-md-10 #{article.meta.createAt}
+            .row
+                .col-md-2 标签
+                .col-md-10 #{article.label}
+        .jumbotron
+            .row
+                .col-md-12 #{article.content}
         

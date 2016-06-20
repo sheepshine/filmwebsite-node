@@ -4,9 +4,10 @@ block content
     .container
         .row
             each item in articles
-                .col-md-2
+                .jumbotron
                     a(href='/detail/#{item.id}')
                         .caption
                             h3 #{item.title}
-                            h4 #{item.author}
-                            h5 #{item.meta.createAt}
+                                small /#{item.author}
+                            h6.label.label-default #{item.label}
+                            h6 #{item.meta.createAt}

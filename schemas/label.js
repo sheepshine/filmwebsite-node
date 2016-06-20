@@ -1,10 +1,8 @@
 var mongoose=require('mongoose')
 
-var ArticleSchema=new mongoose.Schema({
+var LabelSchema=new mongoose.Schema({
 	author:String,
-	title:String,
-	label:String,
-	content:String,
+	name:String,
 	meta:{
 		createAt:{
 			type:Date,
@@ -17,7 +15,7 @@ var ArticleSchema=new mongoose.Schema({
 	}
 })
 
-ArticleSchema.pre('save',function(next){
+LabelSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt=this.meta.updataAt=Date.now();
 	}else{
@@ -27,7 +25,7 @@ ArticleSchema.pre('save',function(next){
 	next()
 })
 
-ArticleSchema.statics={
+LabelSchema.statics={
 	fetch:function(cb){
 		return this
 			.find({})
@@ -39,11 +37,11 @@ ArticleSchema.statics={
 			.findOne({_id:id})
 			.exec(cb)
 	},
-	findByTitle:function(title,cb){
+	findByName:function(name,cb){
 		return this
-			.findOne({title:title})
+			.findOne({name:name})
 			.exec(cb)
-	},
+	}
 }
 
-module.exports=ArticleSchema
+module.exports=LabelSchema

@@ -11,10 +11,12 @@ block content
 						input.form-control(type="text",name="article[title]" value="#{article.title}")
 					label.col-sm-3.control-label(for="inputTitle") 作者
 					.col-sm-10
-						input.form-control(type="text",name="article[author]" value="#{article.author}")
+						input.form-control(type="text",name="article[author]" disabled value="#{article.author}")
 					label.col-sm-3.control-label(for="inputTitle") 文章标签
 					.col-sm-10
-						input.form-control(type="text",name="article[label]"  value="#{article.label}")
+						select.form-control(name="article[label]")
+							each item in lables
+								option(value="#{item.name}") #{item.name}
 					label.col-sm-3.control-label(for="inputTitle") 文章内容
 					.col-sm-10
 						textarea.form-control(type="text",name="article[content]" value="#{article.content}")

@@ -1,6 +1,7 @@
 var _=require('underscore');
 var Article=require('../models/article');
 var User=require('../models/user');
+var Label=require('../models/label');
 
 module.exports=function(app){
 	app.use(function(req,res,next){
@@ -131,16 +132,22 @@ module.exports=function(app){
 		var author;
 		req.session.user?author=req.session.user.name:author="";
 		
-		console.log(author)
-		res.render('admin-add',{
-			title:'新增博客',
-			article:{
-				author:author,
-				title:"",
-				label:[]
-			},
-			content:''
+		Label.fetch(function(err,lables){
+			if(err){
+				console.log(err)
+			}
+			res.render('admin-add',{
+				title:'新增博客',
+				article:{
+					author:author,
+					title:"",
+					label:[]
+				},
+				lables:lables,
+				content:''
+			})
 		})
+
 	})
 
 	app.get('/admin/updata/:id',function(req,res){
@@ -223,6 +230,37 @@ module.exports=function(app){
 		}
 	})
 
+	//标签管理 
+	app.get('/admin/label',function(req,res){
+		Label.fetch(function(err,lables){
+			if(err){
+				console.log(err)
+			}
+			res.render('label',{
+				title:'标签管理',
+				labels:lables
+			})
+		})
+	})
 
+	//添加标签
+	app.post('/admin/label',function(req,res){
+		console.log(req.body.label,'-------------------------------------------------')
+		Label.findByName(req.body.label,function(err,isHas){
+			if(isHas){
+				res.json({state:1,message:'标签已存在'})
+			}else{
+				label=new Label({
+					author:req.session.user.name,
+					name:req.body.label
+				})
+				label.save(function(err,label){
+					console.log('标签添加成功',label);
+					res.json({state:0,message:'标签添加成功'})
+				})
+			}
+		})
+		
+	})
 }
 
