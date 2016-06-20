@@ -3,21 +3,17 @@ extends ../layout
 block content
     .container
         .row
-            .col-md-12 
-                img(src="#{movie.summary}")
+            .col-md-2 文章标题
+            .col-md-10 #{article.title}
         .row
-            .col-md-7 电影名字
-            .col-md-5 #{movie.title}
+            .col-md-2 作者
+            .col-md-10 #{article.author}
         .row
-            .col-md-7 电影导演
-            .col-md-5 #{movie.doctor}
+            .col-md-2 编辑日期
+            .col-md-10 #{article.meta.createAt}
         .row
-            .col-md-7 语言
-            .col-md-4 #{movie.language}
+            .col-md-2 标签
+            .col-md-100 #{article.label}
         .row
-            .col-md-7 国家
-            .col-md-4 #{movie.country}
-        .row
-            .col-md-7 上映年份
-            .col-md-4 #{movie.year}
-        .row
+            .col-md-12 #{article.content}
+        

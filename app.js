@@ -3,18 +3,33 @@ var app=express();
 var path=require('path');
 var mongoose=require('mongoose');
 var bodyParser  = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var _=require('underscore');
-var Movie=require('./models/movie');
+var Article=require('./models/article');
 var User=require('./models/user');
 var port = process.env.PORT || 3000;
+var dbUrl='mongodb://localhost/blog-alpha';
 
-mongoose.connect('mongodb://localhost/ycb')
+mongoose.connect(dbUrl)
 
 app.set('views','./views/pages');
 app.set('view engine','jade');
 //app.user(express.bodyParser());
 app.use(express.static(path.join(__dirname,'public')))
 
+app.use(session(
+	{
+		secret:'app',
+		store:new MongoStore({
+			url:dbUrl,
+			collection:'sessions'
+		}),
+	  	saveUninitialized: true,
+	  	resave:false,
+	  	cookie:{maxAge:10*60*1000}
+	}
+));
 
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
@@ -23,13 +38,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.listen(port);
 
 app.get('',function(req,res){
-	Movie.fetch(function(err,movies){
+	console.log(req.session.user)
+	Article.fetch(function(err,articles){
 		if(err){
 			console.log(err)
 		}
 		res.render('index',{
-			title:'电影',
-			movies:movies
+			title:'博客',
+			articles:articles
 		})	
 	})
 })
@@ -37,21 +53,21 @@ app.get('',function(req,res){
 //注册
 app.post('/user/signup',function(req,res){
 	var _user=req.body.user
-	var user = new User(_user)
 	User.find({name:_user.name},function(err,user){
 		if(err){
 			console.log(err)
 		}
-
-		if(user){
+		console.log(user)
+		if(user.length>0){
 			return res.redirect('/')
 		}else{
+			var user = new User(_user)
 			user.save(function(err,user){
 				if(err){
 					console.log(err)
 				}
 
-				console.log(user)
+				return res.redirect('/')
 			})	
 		}
 	})
@@ -78,6 +94,7 @@ app.post('/user/signin',function(req,res){
 			}
 
 			if(isMatch){
+				req.session.user=user
 				return res.redirect('/')
 			}else{
 				console.log('密码错误')
@@ -100,88 +117,98 @@ app.get('/detail/:id',function(req,res){
 	console.log(req.params)
 	var id=req.params.id;
 
-	Movie.findById(id,function(err,movie){
+	Article.findById(id,function(err,article){
 		if(err){
 			console.log(err)
 		}
 		res.render('detail',{
-			title:movie.title,
-			movie:movie
+			title:article.title,
+			article:article
 		})
 	})
 	
 })
 
+//后台管理页
 app.get('/admin',function(req,res){
 	res.render('admin',{
-		title:'后台录入',
-		movie:{
-			doctor:"",
+		title:'后台管理端',
+		article:{
+			author:"",
 			title:"",
-			language:"",
-			country:"",
-			summary:"",
-			year:"",
-		}
+			label:[]
+		},
+		content:''
+	})
+})
+
+app.get('/admin/add',function(req,res){
+	res.render('admin-add',{
+		title:'新增博客',
+		article:{
+			author:"",
+			title:"",
+			label:[]
+		},
+		content:''
 	})
 })
 
 app.get('/admin/updata/:id',function(req,res){
 	var id=req.params.id;
 	if(id){
-		Movie.findById(id,function(err,movie){
+		Article.findById(id,function(err,article){
 			res.render('admin',{
 				title:'后台更新页',
-				movie:movie
+				article:article
 			})
 		})
 	}
 })
 
-//admin post movie
-app.post('/admin/movie/new',function(req,res){
-	var id=req.body.movie._id;
-	var movieObj=req.body.movie;
-	var _movie;
+//admin post article
+app.post('/admin/article/new',function(req,res){
+	var id=req.body.article._id;
+	var articleObj=req.body.article;
+	var _article;
 	if(id!='undefined'){
-		Movie.findById(id,function(err,movie){
+		Article.findById(id,function(err,article){
 			if(err){
 				console.log(err)
 			}
 
-			_movie=_.extend(movie,movieObj)
-			_movie.save(function(err,movie){
+			_article=_.extend(article,articleObj)
+			_article.save(function(err,article){
 				if(err){
 					console.log(err)
 				}
 
-				res.redirect('/detail/'+movie._id)
+				res.redirect('/detail/'+article._id)
 			})
 		})
 	}else{
-		_movie=new Movie({
-			doctor:movieObj.doctor,
-			title:movieObj.title,
-			language:movieObj.language,
-			country:movieObj.country,
-			summary:movieObj.summary,
-			year:movieObj.year
+		_article=new Article({
+			author:articleObj.author,
+			title:articleObj.title,
+			language:articleObj.language,
+			label:articleObj.label,
+			content:articleObj.content
 		})
 
-		_movie.save(function(err,movie){
-			console.log(movie)
+		_article.save(function(err,article){
+			console.log(article)
 			if(err){
 				console.log(err)
 			}
 
-			res.redirect('/detail/'+movie._id)
+			res.redirect('/detail/'+article._id)
 		})
 	}
 
 })
 
 app.get('/list',function(req,res){
-	Movie.fetch(function(err,movies){
+	Article.fetch(function(err,movies){
 		if(err){
 			console.log(err)
 		}
@@ -197,7 +224,7 @@ app.delete('/admin/list',function(req,res){
 	var id=req.query.id;
 
 	if(id){
-		Movie.remove({_id:id},function(err,movie){
+		Article.remove({_id:id},function(err,movie){
 			if(err){
 				console.log(err)
 			}else{
