@@ -39,6 +39,11 @@ app.listen(port);
 
 app.get('',function(req,res){
 	console.log(req.session.user)
+
+	var _user=req.session.user;
+
+	app.locals.user=_user
+	
 	Article.fetch(function(err,articles){
 		if(err){
 			console.log(err)
@@ -102,6 +107,13 @@ app.post('/user/signin',function(req,res){
 		})
 	})
 	
+})
+
+//登出
+app.get('/logout',function(req,res){
+	delete req.session.user
+
+	res.redirect('/')
 })
 
 //用户列表
