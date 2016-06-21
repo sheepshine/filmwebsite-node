@@ -16,7 +16,7 @@ block content
                 .col-md-12 #{article.content}
         each item in comment
             div #{item.content}
-            div #{item.from}
+            div #{item.from.name}
 
         form(method="post",action="/user/comment")
             input(type="hidden",name="comment[article]",value="#{article._id}")

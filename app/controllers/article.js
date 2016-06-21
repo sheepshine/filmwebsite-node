@@ -11,16 +11,16 @@ exports.articleDetail=function(req,res){
 		if(err){
 			console.log(err)
 		}
-		Comment.findByArticle(article._id,function(err,comment){
-			if(err){
-				console.log(err)
-			}
-			res.render('detail',{
-				title:article.title,
-				article:article,
-				comment:comment
+		Comment.find({article:article._id})
+			.populate('from','name')
+			.exec(function(err,comments){
+				res.render('detail',{
+					title:article.title,
+					article:article,
+					comment:comments
+				})
 			})
-		})
+		
 		
 	})
 	

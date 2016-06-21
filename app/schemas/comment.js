@@ -4,8 +4,8 @@ var ObjectId=Schema.Types.ObjectId
 
 var CommentSchema=new mongoose.Schema({
 	article:{type:ObjectId,ref:'Article'},
-	from:{type:ObjectId,ref:'User'},
-	to:{type:ObjectId,ref:'User'},
+	from:{type:ObjectId,ref:'user'},
+	to:{type:ObjectId,ref:'user'},
 	content:String,
 	meta:{
 		createAt:{
@@ -39,11 +39,6 @@ CommentSchema.statics={
 	findById:function(id,cb){
 		return this
 			.findOne({_id:id})
-			.exec(cb)
-	},
-	findByArticle:function(article,cb){
-		return this
-			.find({article:article})
 			.exec(cb)
 	}
 }
