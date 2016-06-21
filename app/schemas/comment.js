@@ -1,11 +1,12 @@
 var mongoose=require('mongoose')
+var Schema=mongoose.Schema
+var ObjectId=Schema.Types.ObjectId
 
-var ArticleSchema=new mongoose.Schema({
-	author:String,
-	title:String,
-	label:String,
+var CommentSchema=new mongoose.Schema({
+	article:{type:ObjectId,ref:'Article'},
+	from:{type:ObjectId,ref:'User'},
+	to:{type:ObjectId,ref:'User'},
 	content:String,
-	comment:[],
 	meta:{
 		createAt:{
 			type:Date,
@@ -18,7 +19,7 @@ var ArticleSchema=new mongoose.Schema({
 	}
 })
 
-ArticleSchema.pre('save',function(next){
+CommentSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt=this.meta.updataAt=Date.now();
 	}else{
@@ -28,7 +29,7 @@ ArticleSchema.pre('save',function(next){
 	next()
 })
 
-ArticleSchema.statics={
+CommentSchema.statics={
 	fetch:function(cb){
 		return this
 			.find({})
@@ -40,16 +41,11 @@ ArticleSchema.statics={
 			.findOne({_id:id})
 			.exec(cb)
 	},
-	findByTitle:function(title,cb){
+	findByArticle:function(article,cb){
 		return this
-			.findOne({title:title})
+			.find({article:article})
 			.exec(cb)
-	},
-	findByAuthor:function(author,cb){
-		return this
-			.find({author:author})
-			.exec(cb)
-	},
+	}
 }
 
-module.exports=ArticleSchema
+module.exports=CommentSchema

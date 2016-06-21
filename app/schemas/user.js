@@ -8,7 +8,10 @@ var UserSchema=new mongoose.Schema({
 		type:String
 	},
 	password:String,
-	usergroup:[],
+	usergroup:{
+		type:Number,
+		default:1
+	},  //0 游客 //1 注册用户 //2管理员
 	meta:{
 		createAt:{
 			type:Date,

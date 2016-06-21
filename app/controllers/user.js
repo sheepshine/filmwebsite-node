@@ -1,4 +1,5 @@
 var User=require('../models/user');
+
 //注册
 exports.signup=function(req,res){
 	var _user=req.body.user
@@ -8,7 +9,7 @@ exports.signup=function(req,res){
 		}
 		console.log(user)
 		if(user.length>0){
-			return res.redirect('/')
+			return res.redirect('./signin')
 		}else{
 			var user = new User(_user)
 			user.save(function(err,user){
@@ -23,6 +24,21 @@ exports.signup=function(req,res){
 	
 }
 
+//登录页面
+exports.showSignin=function(req,res){
+	res.render('signin',{
+		title:'登录页面'
+	})
+}
+
+//注册页面
+exports.showSignup=function(req,res){
+	res.render('signup',{
+		title:'注册页面'
+	})
+}
+
+
 //登录
 exports.signin=function(req,res){
 	var _user=req.body.user
@@ -34,7 +50,7 @@ exports.signin=function(req,res){
 			console.log(err)
 		}
 		if(!user){
-			console.log('用户不存在')
+			return res.redirect('user/signup')
 		}
 
 		user.comparePassword(password,function(err,isMatch){
@@ -46,6 +62,7 @@ exports.signin=function(req,res){
 				req.session.user=user
 				return res.redirect('/')
 			}else{
+				return res.redirect('user/signin')
 				console.log('密码错误')
 			}
 		})
@@ -63,9 +80,32 @@ exports.logout=function(req,res){
 
 //用户列表
 exports.list=function(req,res){
+	var user =req.session.user;
 	User.fetch(function(err,users){
 		res.render('userlist',{
 			users:users
 		})
 	})
+}
+
+//中间件
+//登录验证
+exports.signinRequired=function(req,res,next){
+	var user=req.session.user;
+	console.log(user)
+	if(!user){
+		return res.redirect('/user/signin')
+	}
+	
+	next();
+}
+
+//权限验证
+exports.permissionRequired=function(req,res,next){
+	var user=req.session.user;
+	if(user.usergroup<2){
+		return res.send('权限不足')
+	}
+
+	next();
 }

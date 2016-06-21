@@ -2,23 +2,23 @@ extends ../layout
 
 block content
     table.table
-        caption 电影列表
+        caption 文章列表
         thead
             tr
-                th 电影名
-                th 上映时间
+                th 标题
                 th 操作时间
+                th 作者
                 th 编辑
                 th 删除
         tbody
-            each item in movies
+            each item in articles
                 tr
                     th 
                         a(href='/detail/#{item._id}') #{item.title}
-                    th #{item.year}
-                    th #{item.meta.createAt}
-                    th 
-                        a(href='./admin/updata/#{item._id}') 
-                            button.btn编辑
-                    th 
-                        button.deleteFilm.btn.btn-danger(data-id="#{item._id}") 删除
+                        th #{item.meta.createAt}
+                        th #{item.author}
+                        th 
+                            a(href='./admin/updata/#{item._id}') 
+                                button.btn 编辑
+                        th 
+                            button.deleteFilm.btn.btn-danger(data-id="#{item._id}") 删除

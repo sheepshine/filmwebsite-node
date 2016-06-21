@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+    .container
+        form(method="POST",action="/user/signin")
+            .modal-header 登录
+            .modal-body
+                .form-group
+                    laber(for="signupName") 用户名
+                    input#signupName.form-control(name="user[name]",type="text")
+                .form-group
+                    laber(for="signupPassword") 密码
+                    input#signupName.form-control(name="user[password]",type="text")
+            .modal-footer
+                button.btn.btn-default(type="button",data-dismiss="modal") 关闭
+                button.btn.btn-default(type="submit") 提交

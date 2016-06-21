@@ -14,4 +14,13 @@ block content
         .jumbotron
             .row
                 .col-md-12 #{article.content}
-        
+        each item in comment
+            div #{item.content}
+            div #{item.from}
+
+        form(method="post",action="/user/comment")
+            input(type="hidden",name="comment[article]",value="#{article._id}")
+            textarea.form-control(rows="3",name="comment[content]")
+            button.btn(type="submit") 提交
+
+        //each item in article.comment

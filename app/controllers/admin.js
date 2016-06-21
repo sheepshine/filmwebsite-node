@@ -102,7 +102,7 @@ var Label=require('../models/label');
 		var id=req.query.id;
 
 		if(id){
-			Article.remove({_id:id},function(err,movie){
+			Article.remove({_id:id},function(err,article){
 				if(err){
 					console.log(err)
 				}else{
@@ -143,4 +143,18 @@ var Label=require('../models/label');
 			}
 		})
 		
+	}
+
+	exports.removeLabel=function(req,res){
+		var id=req.query.id;
+
+		if(id){
+			Label.remove({_id:id},function(err,lable){
+				if(err){
+					console.log(err)
+				}else{
+					res.json({success:1,message:'删除成功'})
+				}
+			})
+		}
 	}

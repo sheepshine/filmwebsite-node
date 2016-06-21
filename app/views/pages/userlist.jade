@@ -7,10 +7,19 @@ block content
             tr
                 th 用户名
                 th 创建时间
+                th 权限
                 th 密码
         tbody
             each item in users
                 tr
                     th #{item.name}
                     th #{item.meta.createAt}
+                    case item.usergroup
+                        when 0 
+                            th 游客
+                        when 1 
+                            th 注册用户
+                        when 2 
+                            th 管理员
                     th #{item.password}
+                    

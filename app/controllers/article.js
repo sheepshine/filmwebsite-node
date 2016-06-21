@@ -1,4 +1,6 @@
 var Article=require('../models/article');
+var Comment=require('../models/comment');
+var User=require('../models/user');
 var _=require('underscore');
 
 exports.articleDetail=function(req,res){
@@ -9,23 +11,57 @@ exports.articleDetail=function(req,res){
 		if(err){
 			console.log(err)
 		}
-		res.render('detail',{
-			title:article.title,
-			article:article
+		Comment.findByArticle(article._id,function(err,comment){
+			if(err){
+				console.log(err)
+			}
+			res.render('detail',{
+				title:article.title,
+				article:article,
+				comment:comment
+			})
 		})
+		
 	})
 	
 }
 
 exports.articleList=function(req,res){
-	Article.fetch(function(err,movies){
-		if(err){
-			console.log(err)
-		}
-		console.log(movies)
+	//是否是管理员
+	if(req.session.user.usergroup>1){
+		Article.fetch(function(err,articles){
+			if(err){
+				console.log(err)
+			}
 			res.render('list',{
-			title:'列表',
-			movies:movies
+				title:'列表',
+				articles:articles
+			})
 		})
-	})
+	}else{
+		Article.findByAuthor(req.session.user.name,function(err,articles){
+			if(err){
+				console.log(err)
+			}
+			res.render('list',{
+				title:'列表',
+				articles:articles
+			})
+		})
+	}
+	
 }
+
+// exports.postComment=function(req,res){
+
+// 	if(!req.session.user){
+// 		res.json({message:'请先登录'})
+// 	}
+	
+// 	Article.findById(req.query.id,function(err,article){
+// 		if(err){
+// 			console.log(err)
+// 		}
+// 		console.log(article.comment,'------------------------------')
+// 	})
+// }

@@ -34,4 +34,34 @@ $(function(){
 		alert($("#selectNew").val())
 	})
 
+	//删除标签
+	$(".removeLabels").click(function(e){
+		var target=$(e.target);
+		alert(target.data('id'))
+		$.ajax({
+			type:'DELETE',
+			url:'/admin/label?id='+target.data('id')
+		})
+		.done(function(res){
+			alert(res.message)
+			window.location.reload();
+		})
+	})
+
+	//提交评论
+	$("#commitComment").click(function(e){
+		var target=$(e.target);
+		$.ajax({
+			type:'get',
+			url:'/api/detail/comment',
+			data:{
+				id:target.data('id'),
+				comment:$("#commentValue").val()
+			}
+		})
+		.done(function(res){
+			alert(res.message)
+			window.location.reload();
+		})
+	})
 })
