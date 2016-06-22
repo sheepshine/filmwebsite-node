@@ -1,0 +1,21 @@
+{"name":"myapp","hostname":"zj-PC","pid":10576,"level":30,"msg":"访问日志","time":"2016-06-22T08:22:50.869Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":12172,"level":30,"msg":"访问日志","time":"2016-06-22T08:23:02.193Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":9484,"level":30,"msg":"访问日志","time":"2016-06-22T08:23:09.049Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":9484,"level":50,"msg":"查找文章失败 文章id:5767aff4d5b1d6b40c653ca","time":"2016-06-22T08:23:09.052Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":11416,"level":30,"msg":"访问日志","time":"2016-06-22T08:23:11.325Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":11416,"level":50,"msg":"查找文章失败 文章id:5767aff4d5b1d6b40c653ca","time":"2016-06-22T08:23:11.332Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":11552,"level":30,"msg":"访问日志","time":"2016-06-22T08:23:12.541Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":11552,"level":50,"msg":"查找文章失败 文章id:5767aff4d5b1d6b40c653ca","time":"2016-06-22T08:23:12.547Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":8388,"level":30,"msg":"访问日志","time":"2016-06-22T08:23:30.401Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":8388,"level":50,"msg":"查找文章失败 文章id:5767aff4d5b1d6b40c653ca","time":"2016-06-22T08:23:30.404Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":11728,"level":30,"msg":"访问日志","time":"2016-06-22T08:25:29.991Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":11728,"level":50,"msg":"查找文章失败 文章id:5767aff4d5b1d6b40c653ca","time":"2016-06-22T08:25:29.994Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":10064,"level":30,"msg":"访问日志","time":"2016-06-22T08:26:33.970Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":10064,"level":50,"msg":"查找文章失败 文章id:5767aff4d5b1d6b40c653ca","time":"2016-06-22T08:26:33.974Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":11540,"level":30,"msg":"访问日志","time":"2016-06-22T08:40:29.242Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":11540,"level":30,"msg":"访问日志","time":"2016-06-22T08:40:42.206Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":12212,"level":30,"msg":"访问日志","time":"2016-06-22T08:57:55.389Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":12212,"level":30,"msg":"访问日志","time":"2016-06-22T08:57:58.822Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":12212,"level":30,"msg":"访问日志","time":"2016-06-22T08:58:04.935Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":12212,"level":30,"msg":"访问日志","time":"2016-06-22T08:58:09.363Z","v":0}
+{"name":"myapp","hostname":"zj-PC","pid":12212,"level":30,"msg":"访问日志","time":"2016-06-22T08:58:12.985Z","v":0}

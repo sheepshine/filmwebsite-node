@@ -1,7 +1,7 @@
 var Article=require('../models/article');
-
+var log=require('../common/log');
 exports.index=function(req,res){
-	console.log(req.session.user)
+	log.trace('访问主页')
 	Article.fetch(function(err,articles){
 		if(err){
 			console.log(err)

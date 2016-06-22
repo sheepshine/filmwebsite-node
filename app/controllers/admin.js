@@ -1,6 +1,6 @@
 var Article=require('../models/article');
 var Label=require('../models/label');
-
+var log=require('../common/log');
 //后台管理页
 	exports.admin=function(req,res){
 		res.render('admin',{
@@ -20,7 +20,7 @@ var Label=require('../models/label');
 		
 		Label.fetch(function(err,lables){
 			if(err){
-				console.log(err)
+				return log.error('查找文章标签失败');
 			}
 			res.render('admin-add',{
 				title:'新增博客',
@@ -40,10 +40,12 @@ var Label=require('../models/label');
 		var id=req.params.id;
 		if(id){
 			Article.findById(id,function(err,article){
-				console.log(article)
+				if(err){
+					return log.error('查找文章失败','文章id:'+id);
+				}
 				Label.fetch(function(err,lables){
 					if(err){
-						console.log(err)
+						return log.error('更新文章时查找标签失败','文章id:'+id);
 					}
 					res.render('admin-add',{
 						title:'后台更新页',
@@ -63,13 +65,13 @@ var Label=require('../models/label');
 		if(id!='undefined'){
 			Article.findById(id,function(err,article){
 				if(err){
-					console.log(err)
+					return log.error('更新文章时查找标签失败','文章id:'+id);
 				}
 
 				_article=_.extend(article,articleObj)
 				_article.save(function(err,article){
 					if(err){
-						console.log(err)
+						return log.error('更新文章后保存文章失败','文章id:'+id);
 					}
 
 					res.redirect('/detail/'+article._id)
@@ -85,9 +87,8 @@ var Label=require('../models/label');
 			})
 
 			_article.save(function(err,article){
-				console.log(article)
 				if(err){
-					console.log(err)
+					return log.error('新增文章时查找标签失败','文章信息:'+_article);
 				}
 
 				res.redirect('/detail/'+article._id)
@@ -104,7 +105,7 @@ var Label=require('../models/label');
 		if(id){
 			Article.remove({_id:id},function(err,article){
 				if(err){
-					console.log(err)
+					return log.error('查找文章列表标签失败','文章信息:'+_id);
 				}else{
 					res.json({success:1})
 				}

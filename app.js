@@ -5,11 +5,21 @@ var mongoose=require('mongoose');
 var bodyParser  = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
-var logger = require('morgan');
+
+// var bunyan= require('bunyan');
+// var log=bunyan.createLogger({
+// 	name:'myapp',streams: [
+//     {
+//     	path: 'myapp-error.log'
+//     }
+//   ]});
+
 var port = process.env.PORT || 3000;
 var dbUrl='mongodb://localhost/blog-alpha';
 
 mongoose.connect(dbUrl)
+
+
 
 app.set('views','./app/views/pages');
 app.set('view engine','jade');
@@ -32,13 +42,6 @@ app.use(session(
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-
-if('development'==app.get('env')){
-	app.set('showStackError',true)
-	app.use(logger(':method:url:status'))
-	app.locals.pretty=true
-	mongoose.set('debug',true)
-}
 
 require('./config/route')(app)
 
