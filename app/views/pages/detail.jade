@@ -15,12 +15,21 @@ block content
             .row
                 .col-md-12 #{article.content}
         each item in comment
-            div #{item.content}
-            div #{item.from.name}
+            a.reply(href="#comments",data-tid="#{item.from._id}",data-cid="#{item._id}")
+                div #{item.from.name}：
+                div #{item.content}
+                if item.reply && item.reply.length>0
+                    div(style="margin-left:30px")
+                        each reply in item.reply
+                            a.reply(href="#comments",data-tid="#{reply.from._id}",data-cid="#{item._id}")
+                                div 
+                                    span #{reply.from.name}：回复 
+                                    span #{reply.to.name}：
+                                div #{reply.content}
 
-        form(method="post",action="/user/comment")
+        form#comments(method="post",action="/user/comment")
             input(type="hidden",name="comment[article]",value="#{article._id}")
-            textarea.form-control(rows="3",name="comment[content]")
-            button.btn(type="submit") 提交
+            textarea.col-md-10.form-control(rows="3",name="comment[content]")
+            button.col-md-12.btn(type="submit") 提交
 
         //each item in article.comment

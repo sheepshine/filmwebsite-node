@@ -1,22 +1,47 @@
 var Comment=require('../models/comment');
 
 exports.save=function(req,res){
-	var _comment=req.body.comment
-	console.log(req.session.user,'/////////////////////')
-	var articleId=_comment.article
-	_comment.from=req.session.user._id
-	console.log(_comment,'-----------------------------------------------------')
-	var comment=new Comment(
-		_comment
-	)
+	var _comment=req.body.comment;
+	var articleId=_comment.article;
+	_comment.from=req.session.user._id;
+	if(_comment.cid){
+		Comment.findById(_comment.cid,function(err,comment){
+			var reply={
+				from:_comment.from,
+				to:_comment.tid,
+				content:_comment.content
+			}
+			comment.reply.push(reply)
 
-	comment.save(function(err,comment){
-		if(err){
-			console.log(err)
-		}
+			comment.save(function(err,comment){
+				if(err){
+					console.log(err)
+				}
+			})
+			res.redirect('/detail/'+articleId)
+		})
+		
+		
+		
+	}else{
+		var comment=new Comment(
+			_comment
+		)
 
-		res.redirect('/detail/'+articleId)
-	})
+		comment.save(function(err,comment){
+			if(err){
+				console.log(err)
+			}
+
+			res.redirect('/detail/'+articleId)
+		})
+
+	}
+	
+
+	
+
+	
 
 
 }

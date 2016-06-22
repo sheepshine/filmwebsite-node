@@ -6,6 +6,11 @@ var CommentSchema=new mongoose.Schema({
 	article:{type:ObjectId,ref:'Article'},
 	from:{type:ObjectId,ref:'user'},
 	to:{type:ObjectId,ref:'user'},
+	reply:[{
+		from:{type:ObjectId,ref:'user'},
+		to:{type:ObjectId,ref:'user'},
+		content:String
+	}],
 	content:String,
 	meta:{
 		createAt:{
